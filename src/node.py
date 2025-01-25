@@ -22,6 +22,7 @@ class Node(Protocol):
     state: str
     type: str
     children: List[Node]
+    tokens: List[str]
 
     def backprop(self, value: float): ...
 
@@ -37,6 +38,7 @@ class MCTSNode:
     visits: int = 0
     children: List[Node] = field(default_factory=lambda: [])
     parent: Optional[Node] = None
+    tokens: List[str] = field(default_factory=lambda: [])
 
     def backprop(self, value: float):
         if value > self.value:

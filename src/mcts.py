@@ -50,6 +50,7 @@ def get_next_actions(
             state=(node.state + " " + c).strip(),
             parent=node,
             type="expansion",
+            tokens=node.tokens + [c],
         )
         for c, prob in zip(candidates, probabilities, strict=True)
     ]
@@ -131,7 +132,7 @@ def mcts(
     Returns:
         Root and last evaluated node along with action history.
     """
-    root = MCTSNode(prob=1, state="", type="root")
+    root = MCTSNode(prob=1, state="", type="root", tokens=[])
     node: Optional[Node] = None
     history: List[Dict[str, Any]] = [{"root": root}]
     logger.info({"actions": [list(i.keys()) for i in history]})
