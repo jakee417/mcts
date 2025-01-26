@@ -88,13 +88,16 @@ def get_candidates_fn(
     return _get_candidates_fn
 
 
-def get_simulation_fn(prompt: str) -> Callable[[Node], str]:
+def get_simulation_fn(
+    prompt: str,
+    max_completion_tokens: Optional[None] = None,
+) -> Callable[[Node], str]:
     def _get_simulation_fn(node: Node) -> str:
         """Get a simulation starting from a node."""
         completion = get_completion(
             system_prompt=prompt,
             translation=node.state,
-            max_completion_tokens=None,
+            max_completion_tokens=max_completion_tokens,
             top_logprobs=1,
         )
         if len(completion.choices) > 0:

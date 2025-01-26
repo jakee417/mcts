@@ -5,8 +5,8 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-C = 1.0
-C_BASE = 1.0
+C = 2.0
+C_BASE = 10.0
 
 
 def compute_beta(node: Node, c: float, c_base: float) -> float:
@@ -64,6 +64,7 @@ def _mcts_single_step(
     c: float,
     c_base: float,
 ) -> Tuple[Node, Optional[Node], List[Dict[str, Any]], float, bool]:
+    """A single step of mcts."""
     step: List[Dict[str, Any]] = []
     node = root
     node.visits += 1
@@ -87,7 +88,7 @@ def _mcts_single_step(
 
     # Evaluation
     reward, early_stop = get_rewards_fn(node, simulation)
-    step.append({"reward": (node.state + " " + simulation, reward)})
+    step.append({"reward": (node.state, simulation, reward)})
 
     # backprop reward up the tree
     node.backprop(reward)
@@ -135,7 +136,7 @@ def mcts(
     root = MCTSNode(prob=1, state="", type="root", tokens=[])
     node: Optional[Node] = None
     history: List[Dict[str, Any]] = [{"root": root}]
-    logger.info({"actions": [list(i.keys()) for i in history]})
+    print({"actions": [list(i.keys()) for i in history]})
     for i in range(max_rollouts):
         # Take a mcts step always starting from the root.
         root, node, step, reward, early_stop = _mcts_single_step(
@@ -150,7 +151,7 @@ def mcts(
         # Extend the history with the current step and print.
         history.extend(step)
         if verbose:
-            logger.info(
+            print(
                 {
                     "step": i,
                     "actions": [list(i.keys()) for i in step],
