@@ -1,4 +1,4 @@
-Simple implementation of adding Monte Carlo Tree Search to an LLM. See [this blog post](https://jakee417.github.io/posts/monte-carlo-tree-search/) for more details.
+Minimal implementation of adding Monte Carlo Tree Search to an LLM. See [this blog post](https://jakee417.github.io/posts/monte-carlo-tree-search/) for more details.
 
 ## How to use
 Copy `mcts.ipynb` and overwrite:
